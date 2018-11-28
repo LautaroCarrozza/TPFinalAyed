@@ -1,6 +1,6 @@
 # TPFinalAyed
 
->TPE final -> Algoritmos y Estructura de Datos
+>TPE final -> Algoritmos y Estructura de Datos.
 Diseño e implementacion de un programa para el procesamiento de datos de un censo poblacional
 
 ## Integrantes
