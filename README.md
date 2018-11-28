@@ -4,7 +4,7 @@
 Diseño e implementacion de un programa para el procesamiento de datos de un censo poblacional
 
 ## Integrantes
-Tomas Gonzales Palermo, Juan Cruz Pisani, Lautaro Carrozza
+Tomas Gonzales Palermo, Juan Cruz Pisani, Lautaro Carrozza :+1:
 
 ## Fecha de Entrega
 4/12/2018
