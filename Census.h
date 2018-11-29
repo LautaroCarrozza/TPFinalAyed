@@ -5,4 +5,9 @@
 #ifndef TPFINALAYED_CENSUS_H
 #define TPFINALAYED_CENSUS_H
 
+typedef struct censusCDT *censusADT;
+
+censusADT newCensusADT(void);
+
+
 #endif //TPFINALAYED_CENSUS_H

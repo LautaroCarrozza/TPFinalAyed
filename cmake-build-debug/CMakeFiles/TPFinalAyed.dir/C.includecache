@@ -9,4 +9,8 @@
 C:/Proyects/Ayed/TPFinalAyed/main.c
 stdio.h
 -
+stdlib.h
+-
+string.h
+-
 
