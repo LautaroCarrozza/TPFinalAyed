@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/TPFinalAyed.dir/main.c.obj"
+  "CMakeFiles/TPFinalAyed.dir/Census.c.obj"
   "TPFinalAyed.pdb"
   "TPFinalAyed.exe"
   "TPFinalAyed.exe.manifest"

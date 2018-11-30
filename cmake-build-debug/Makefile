@@ -47,10 +47,10 @@ RM = "C:\Program Files\JetBrains\CLion 2018.3\bin\cmake\win\bin\cmake.exe" -E re
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Proyects\Ayed\TPFinalAyed
+CMAKE_SOURCE_DIR = C:\Users\Toto\CLionProjects\TPFinalAyed
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Proyects\Ayed\TPFinalAyed\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\Toto\CLionProjects\TPFinalAyed\cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -79,9 +79,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Proyects\Ayed\TPFinalAyed\cmake-build-debug\CMakeFiles C:\Proyects\Ayed\TPFinalAyed\cmake-build-debug\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Toto\CLionProjects\TPFinalAyed\cmake-build-debug\CMakeFiles C:\Users\Toto\CLionProjects\TPFinalAyed\cmake-build-debug\CMakeFiles\progress.marks
 	$(MAKE) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Proyects\Ayed\TPFinalAyed\cmake-build-debug\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Toto\CLionProjects\TPFinalAyed\cmake-build-debug\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -122,6 +122,33 @@ TPFinalAyed/fast:
 	$(MAKE) -f CMakeFiles\TPFinalAyed.dir\build.make CMakeFiles/TPFinalAyed.dir/build
 .PHONY : TPFinalAyed/fast
 
+Census.obj: Census.c.obj
+
+.PHONY : Census.obj
+
+# target to build an object file
+Census.c.obj:
+	$(MAKE) -f CMakeFiles\TPFinalAyed.dir\build.make CMakeFiles/TPFinalAyed.dir/Census.c.obj
+.PHONY : Census.c.obj
+
+Census.i: Census.c.i
+
+.PHONY : Census.i
+
+# target to preprocess a source file
+Census.c.i:
+	$(MAKE) -f CMakeFiles\TPFinalAyed.dir\build.make CMakeFiles/TPFinalAyed.dir/Census.c.i
+.PHONY : Census.c.i
+
+Census.s: Census.c.s
+
+.PHONY : Census.s
+
+# target to generate assembly for a file
+Census.c.s:
+	$(MAKE) -f CMakeFiles\TPFinalAyed.dir\build.make CMakeFiles/TPFinalAyed.dir/Census.c.s
+.PHONY : Census.c.s
+
 main.obj: main.c.obj
 
 .PHONY : main.obj
@@ -158,6 +185,9 @@ help:
 	@echo ... TPFinalAyed
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... Census.obj
+	@echo ... Census.i
+	@echo ... Census.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
