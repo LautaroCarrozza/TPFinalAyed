@@ -6,43 +6,70 @@
 #include <stdlib.h>
 #include "Census.h"
 
-#define NO_DATA 0
-#define OCUPPIED 1
-#define UNOCUPPIED 2
-#define ECONIMCALYINACTIVE 3
-
+struct home{
+    int code;
+    struct home* next;
+};
 
 struct department{
     char * name;
-    long habitantsPerDepartment;
+    unsigned long inhabitantsPerDepartment;
     struct department* next;
 };
 
 struct province{
     char * name;
-    long inhabitantsPerProvince;
-//    struct deptCDT * firstDepartment;
-//    struct deptCDT * iterative;
+    long inhabitantPerProvince;
+    unsigned long homesPerProvince;
+    struct home * homes;
     struct province* next;
+    struct province * iterator;
 };
 
-struct CensusCDT {
-   long occupiedInhabitants, unoccupiedInhabitants, totalInhabitants;
-   int occupiedStatus, unoccupiedStatus, noData, notActive;
-   struct province* firstProvince;
-//   struct province* iterative;
+struct censusCDT {
+   unsigned long inhabitants;
+   unsigned int provinceSize;
+   unsigned long totalHomes;
+   struct province * provinceList;
+   struct province * iterator;
 };
 
 censusADT newCensus(void){
-    return calloc(1, sizeof(struct CensusCDT));
+    censusADT c = malloc(sizeof(*c));
+
+    c->inhabitants = 0;
+    c->provinceList = NULL;
+    c->iterator = NULL;
+
+    return c;
 }
 
 //calls process country - province - department
-int processInputRecord(int activity, int home, char *department, char *province) {
+int processInputRecord(censusADT c, int home, char *department, char *province) {
+    processCountry(c, home, province);
+    processProvince(c, home, province);
+    processDepartment(c, home, department, province);
     return 0;
 }
 
-int processCountry(){ return 0;}
-int processProvince(){ return 0;}
-int processDepartment(){ return 0;}
+int processCountry(censusADT c, int home, char * province){
+    c->inhabitants ++;
+    if(addProvince(c, province)){
+        c->provinceSize ++;
+    }
+    if(addHome(c, home)){
+        c->totalHomes++;
+    }
+    return 0;
+}
+int processProvince(censusADT c, int home, char *province) {
+
+    struct province * aux = malloc(sizeof(*aux));
+    aux = c->provinceList;
+
+    return 0;
+}
+int processDepartment(censusADT c, int home, char *department, char *province) { return 0;}
+
+
 int writeFiles(){ return 0;}

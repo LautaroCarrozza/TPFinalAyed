@@ -9,11 +9,11 @@ typedef struct censusCDT *censusADT;
 
 censusADT newCensus(void);
 
-int processInputRecord(int i, int i1, char *string, char *string1);
+int processInputRecord(censusADT c, int home, char *department, char *province);
 
-int processCountry();
-int processProvince();
-int processDepartment();
+int processCountry(censusADT c, int home, char * province);
+int processProvince(censusADT c, int home, char *province);
+int processDepartment(censusADT c, int home, char *department, char *province);
 int writeFiles();
 
 #endif //TPFINALAYED_CENSUS_H

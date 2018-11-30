@@ -19,7 +19,7 @@ char* getField(char *line, int num);
 int recordLineFiles(char line[], char *newLine[], Register* aRegister);
 
 
-int main(int argc, char * argv[])
+int main()
 {
     censusADT c = newCensus();
 
@@ -33,7 +33,7 @@ int main(int argc, char * argv[])
 
         char * tmp = strdup(line);
         recordLineFiles(tmp, currentLine, aRegister);
-        processInputRecord(aRegister->activity, aRegister->home, aRegister->department, aRegister->province);
+        processInputRecord(c, aRegister->activity, aRegister->home, aRegister->department, aRegister->province);
 
         free(tmp);
         free(aRegister);
