@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "Census.h"
+#include "census.h"
 
 struct home{
     int code;
@@ -34,6 +34,12 @@ struct censusCDT {
    struct province * iterator;
 };
 
+struct province *getProvince(censusADT c, char *province);
+
+int addProvince(censusADT c, char *province);
+
+int addHome(censusADT c, int home);
+
 censusADT newCensus(void){
     censusADT c = malloc(sizeof(*c));
 
@@ -42,6 +48,10 @@ censusADT newCensus(void){
     c->iterator = NULL;
 
     return c;
+}
+
+struct province *getProvince(censusADT c, char *province) {
+    return NULL;
 }
 
 //calls process country - province - department
@@ -62,14 +72,50 @@ int processCountry(censusADT c, int home, char * province){
     }
     return 0;
 }
+
+static int addProvince(censusADT c, char *province);
+
+static struct province *insertRec(struct province *pProvince, char *province, int *pInt) {
+    int c;
+    if( pProvince == NULL || (c=strcmp(pProvince-> name, province)) > 0 ){
+        struct province * aux = malloc(sizeof(*aux));
+        aux->next= pProvince;
+        aux->name = province;
+        *pInt = 1;
+        return aux;
+    }
+
+    if( c < 0 )
+        pProvince->next = insertRec( pProvince->next, province, pInt);
+    return pProvince;
+}
+
+int addHome(censusADT c, int home) {
+    return 0; // todo
+}
+
+int addProvince(censusADT c, char *province) {
+    int added = 0 ;
+    c->provinceList = insertRec(c->provinceList, province, &added);
+    if (added)
+        c->provinceSize++;
+    return added;
+}
+
 int processProvince(censusADT c, int home, char *province) {
 
-    struct province * aux = malloc(sizeof(*aux));
-    aux = c->provinceList;
+    struct province * aux;
+    aux = getProvince(c, province);
+
+    if (aux == NULL)
+        return 1;
+    aux->inhabitantPerProvince ++;
 
     return 0;
 }
 int processDepartment(censusADT c, int home, char *department, char *province) { return 0;}
 
 
-int writeFiles(){ return 0;}
+int writeFiles(){
+    return 0;//t
+}

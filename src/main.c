@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Census.h"
+#include "census.h"
 
 #define INPUT_LENGTH 80
 #define COLUMNS_LENGTH 4
@@ -21,11 +21,12 @@ int recordLineFiles(char line[], char *newLine[], Register* aRegister);
 
 int main()
 {
-    censusADT c = newCensus();
-
+    censusADT c;
     char line[INPUT_LENGTH];
     Register *aRegister = malloc(sizeof(aRegister));
     char * currentLine [COLUMNS_LENGTH];
+
+    c = newCensus();
 
     FILE* stream = fopen("censo100.csv", "r");//cambiar argumento por lo que viene en cosola
     while (fgets(line, INPUT_LENGTH, stream))
@@ -33,7 +34,7 @@ int main()
 
         char * tmp = strdup(line);
         recordLineFiles(tmp, currentLine, aRegister);
-        processInputRecord(c, aRegister->activity, aRegister->home, aRegister->department, aRegister->province);
+        processInputRecord(c, aRegister->home, aRegister->department, aRegister->province);
 
         free(tmp);
         free(aRegister);
