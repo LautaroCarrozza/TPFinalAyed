@@ -33,7 +33,7 @@ int main()
     {
         char * tmp = strdup(line);
         recordLineFiles(tmp, currentLine, aRegister);
-        //processInputRecord(c, aRegister->home, aRegister->department, aRegister->province);
+        processInputRecord(c, aRegister->home, aRegister->department, currentLine[3]);
         free(tmp);
     }
 }
@@ -44,13 +44,19 @@ int recordLineFiles(char line[], char * newLine[], Register *aRegister){
         strcpy(aux, line);
         newLine[i] = getField(aux, i+1);
     }
-    aRegister->department = malloc(sizeof(newLine[2])+1);
-    //aRegister->province = malloc(strlen(newLine[3])+1); //SI DESCOMENTO ESTE TIRA SEG FAULT
+    char * currentDepartment = newLine[2];
+    char * currentProvince = newLine[3];
 
+    aRegister->department = currentDepartment;
+    //aRegister->province = currentProvince; //SI DESCOMENTO ESTE TIRA SEG FAULT
     aRegister->activity = atoi(newLine[0]);
     aRegister->home = atoi(newLine[1]);
-    //strcpy(aRegister->department, newLine[2]); SI DESCOMENTO ESTE TIRA SEG FAULT
-    //strcpy(aRegister->province, newLine[3]); Lo mismo
+
+    //Con este pruebo que este leyendo bien
+    //printf("%s, %s, %s, %s\n", newLine[0], newLine[1], newLine[2], newLine[3]);
+
+    //free(currentDepartment);
+    //free(currentProvince);
 }
 
 char* getField(char *line, int num){
