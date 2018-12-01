@@ -73,8 +73,6 @@ int processCountry(censusADT c, int home, char * province){
     return 0;
 }
 
-static int addProvince(censusADT c, char *province);
-
 static struct province *insertRec(struct province *pProvince, char *province, int *pInt) {
     int c;
     if( pProvince == NULL || (c=strcmp(pProvince-> name, province)) > 0 ){

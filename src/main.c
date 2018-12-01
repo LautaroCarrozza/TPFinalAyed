@@ -31,34 +31,31 @@ int main()
     FILE* stream = fopen("censo100.csv", "r");//cambiar argumento por lo que viene en cosola
     while (fgets(line, INPUT_LENGTH, stream))
     {
-
         char * tmp = strdup(line);
         recordLineFiles(tmp, currentLine, aRegister);
-        processInputRecord(c, aRegister->home, aRegister->department, aRegister->province);
-
+        //processInputRecord(c, aRegister->home, aRegister->department, aRegister->province);
         free(tmp);
-        free(aRegister);
-        //free(currentLine);
     }
-
 }
 
 int recordLineFiles(char line[], char * newLine[], Register *aRegister){
-    for (int i = 0; i < COLUMNS_LENGTH; ++i) {
-        newLine[i] = getField(line, i + 1);
+    char * aux = malloc(strlen(line)+1);
+    for (int i = 0; i < COLUMNS_LENGTH; i++) {
+        strcpy(aux, line);
+        newLine[i] = getField(aux, i+1);
     }
+    aRegister->department = malloc(sizeof(newLine[2])+1);
+    //aRegister->province = malloc(strlen(newLine[3])+1); //SI DESCOMENTO ESTE TIRA SEG FAULT
+
     aRegister->activity = atoi(newLine[0]);
     aRegister->home = atoi(newLine[1]);
-    strcpy(aRegister->department, newLine[2]);
-    strcpy(aRegister->province, newLine[3]);
+    //strcpy(aRegister->department, newLine[2]); SI DESCOMENTO ESTE TIRA SEG FAULT
+    //strcpy(aRegister->province, newLine[3]); Lo mismo
 }
 
 char* getField(char *line, int num){
     char* tok;
-    for (tok = strtok(line, ";");
-         tok && *tok;
-         tok = strtok(NULL, ";\n"))
-    {
+    for (tok = strtok(line, ","); tok && *tok; tok = strtok(NULL, ",\n")){
         if (!--num)
             return tok;
     }
