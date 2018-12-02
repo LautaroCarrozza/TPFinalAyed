@@ -36,16 +36,18 @@ int main(){
     c = newCensus();
 
     while (fgets(line, INPUT_LENGTH, stream)){
-        // 4 memory leaks en tmp
         tmp = strdup(line);
         recordLineFiles(tmp, currentLine);
         processInputRecord(c, atoi(currentLine[1]), currentLine[2], currentLine[3]);
         free(tmp);
     }
 
+    //print(c, countryFile);
+
     writeCountryFile(c, countryFile);
     writeProvinceFile(c, provinceFile);
-    writeDepartmentFile(c, departmentFile);
+//    writeDepartmentFile(c, departmentFile);w
+
 
     fclose(stream);
     fclose(countryFile);
@@ -57,7 +59,13 @@ int main(){
 }
 
 void writeCountryFile(censusADT c, FILE * countryFile){
-    //Falta metodo del back que me pase las cuentas que se imprimen aca
+
+    unsigned long totalInhabitants = 0;
+    unsigned long totalHomes = 0;
+    unsigned int provinceSize = 0;
+
+    censusData(c, &totalInhabitants, &totalHomes, &provinceSize);
+    fprintf(countryFile, "%lu, %lu, %.d", totalInhabitants, totalHomes, provinceSize);
 }
 
 void writeDepartmentFile(censusADT c, FILE *departmentFile) {
@@ -67,6 +75,18 @@ void writeDepartmentFile(censusADT c, FILE *departmentFile) {
 
 void writeProvinceFile(censusADT c, FILE *provinceFile) {
     //Metodo que me deberia pasar de cada estructura provincia su nombre, cant personas y cant de hogares
+    char provinceName [40];
+    long inhabitantsPerProvince = 0;
+    unsigned long homesPerProvince = 0;
+    int iter = 0;
+    while (provinceData(c, provinceName, &inhabitantsPerProvince, &homesPerProvince, iter)){
+        fprintf(provinceFile, "%s, %lu, %lu\n", provinceName, inhabitantsPerProvince, homesPerProvince);
+        strcpy(provinceName, "");
+        inhabitantsPerProvince = 0;
+        homesPerProvince = 0;
+        iter++;
+    }
+
 }
 
 int recordLineFiles(char line[], char *newLine[]){ //1 leak en tok
@@ -75,7 +95,6 @@ int recordLineFiles(char line[], char *newLine[]){ //1 leak en tok
         strcpy(aux, line);
         newLine[i] = getField(aux, i+1);
     }
-    free(aux);
     return 0;
 }
 
