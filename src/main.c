@@ -36,6 +36,7 @@ int main(){
     c = newCensus();
 
     while (fgets(line, INPUT_LENGTH, stream)){
+        // 4 memory leaks en tmp
         tmp = strdup(line);
         recordLineFiles(tmp, currentLine);
         processInputRecord(c, atoi(currentLine[1]), currentLine[2], currentLine[3]);
@@ -50,6 +51,9 @@ int main(){
     fclose(countryFile);
     fclose(provinceFile);
     fclose(departmentFile);
+
+    freeCensus(c);
+    return 0;
 }
 
 void writeCountryFile(censusADT c, FILE * countryFile){
@@ -65,12 +69,13 @@ void writeProvinceFile(censusADT c, FILE *provinceFile) {
     //Metodo que me deberia pasar de cada estructura provincia su nombre, cant personas y cant de hogares
 }
 
-int recordLineFiles(char line[], char *newLine[]){
+int recordLineFiles(char line[], char *newLine[]){ //1 leak en tok
     char * aux = malloc(strlen(line)+1);
     for (int i = 0; i < COLUMNS_LENGTH; i++) {
         strcpy(aux, line);
         newLine[i] = getField(aux, i+1);
     }
+    free(aux);
     return 0;
 }
 
