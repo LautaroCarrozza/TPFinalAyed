@@ -9,11 +9,6 @@ typedef struct censusCDT *censusADT;
 
 censusADT newCensus(void);
 
-int processInputRecord(censusADT c, int home, char *department, char *province);
-
-int processCountry(censusADT c, int home, char * province);
-int processProvince(censusADT c, int home, char *province);
-int processDepartment(censusADT c, int home, char *department, char *province);
-int writeFiles();
+void processInputRecord(censusADT c, int home, char *department, char *province);
 
 #endif //TPFINALAYED_CENSUS_H

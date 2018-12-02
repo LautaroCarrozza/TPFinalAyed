@@ -6,11 +6,15 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/Toto/CLionProjects/TPFinalAyed/main.c
+C:/Users/Toto/CLionProjects/TPFinalAyed/src/census.h
+
+C:/Users/Toto/CLionProjects/TPFinalAyed/src/main.c
 stdio.h
 -
 stdlib.h
 -
 string.h
 -
+census.h
+C:/Users/Toto/CLionProjects/TPFinalAyed/src/census.h
 

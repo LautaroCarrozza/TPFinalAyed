@@ -4,8 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "C:/Users/Toto/CLionProjects/TPFinalAyed/Census.c" "C:/Users/Toto/CLionProjects/TPFinalAyed/cmake-build-debug/CMakeFiles/TPFinalAyed.dir/Census.c.obj"
-  "C:/Users/Toto/CLionProjects/TPFinalAyed/main.c" "C:/Users/Toto/CLionProjects/TPFinalAyed/cmake-build-debug/CMakeFiles/TPFinalAyed.dir/main.c.obj"
+  "C:/Users/Toto/CLionProjects/TPFinalAyed/src/main.c" "C:/Users/Toto/CLionProjects/TPFinalAyed/src/cmake-build-debug/CMakeFiles/TPFinalAyed.dir/main.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

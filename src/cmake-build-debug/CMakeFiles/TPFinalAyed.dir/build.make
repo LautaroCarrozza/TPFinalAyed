@@ -42,10 +42,10 @@ RM = "C:\Program Files\JetBrains\CLion 2018.3\bin\cmake\win\bin\cmake.exe" -E re
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Toto\CLionProjects\TPFinalAyed
+CMAKE_SOURCE_DIR = C:\Users\Toto\CLionProjects\TPFinalAyed\src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Toto\CLionProjects\TPFinalAyed\cmake-build-debug
+CMAKE_BINARY_DIR = C:\Users\Toto\CLionProjects\TPFinalAyed\src\cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/TPFinalAyed.dir/depend.make
@@ -58,45 +58,30 @@ include CMakeFiles/TPFinalAyed.dir/flags.make
 
 CMakeFiles/TPFinalAyed.dir/main.c.obj: CMakeFiles/TPFinalAyed.dir/flags.make
 CMakeFiles/TPFinalAyed.dir/main.c.obj: ../main.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Toto\CLionProjects\TPFinalAyed\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/TPFinalAyed.dir/main.c.obj"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\TPFinalAyed.dir\main.c.obj   -c C:\Users\Toto\CLionProjects\TPFinalAyed\main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Toto\CLionProjects\TPFinalAyed\src\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/TPFinalAyed.dir/main.c.obj"
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\TPFinalAyed.dir\main.c.obj   -c C:\Users\Toto\CLionProjects\TPFinalAyed\src\main.c
 
 CMakeFiles/TPFinalAyed.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/TPFinalAyed.dir/main.c.i"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Toto\CLionProjects\TPFinalAyed\main.c > CMakeFiles\TPFinalAyed.dir\main.c.i
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Toto\CLionProjects\TPFinalAyed\src\main.c > CMakeFiles\TPFinalAyed.dir\main.c.i
 
 CMakeFiles/TPFinalAyed.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/TPFinalAyed.dir/main.c.s"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Toto\CLionProjects\TPFinalAyed\main.c -o CMakeFiles\TPFinalAyed.dir\main.c.s
-
-CMakeFiles/TPFinalAyed.dir/Census.c.obj: CMakeFiles/TPFinalAyed.dir/flags.make
-CMakeFiles/TPFinalAyed.dir/Census.c.obj: ../Census.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Toto\CLionProjects\TPFinalAyed\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/TPFinalAyed.dir/Census.c.obj"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\TPFinalAyed.dir\Census.c.obj   -c C:\Users\Toto\CLionProjects\TPFinalAyed\Census.c
-
-CMakeFiles/TPFinalAyed.dir/Census.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/TPFinalAyed.dir/Census.c.i"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Toto\CLionProjects\TPFinalAyed\Census.c > CMakeFiles\TPFinalAyed.dir\Census.c.i
-
-CMakeFiles/TPFinalAyed.dir/Census.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/TPFinalAyed.dir/Census.c.s"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Toto\CLionProjects\TPFinalAyed\Census.c -o CMakeFiles\TPFinalAyed.dir\Census.c.s
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Toto\CLionProjects\TPFinalAyed\src\main.c -o CMakeFiles\TPFinalAyed.dir\main.c.s
 
 # Object files for target TPFinalAyed
 TPFinalAyed_OBJECTS = \
-"CMakeFiles/TPFinalAyed.dir/main.c.obj" \
-"CMakeFiles/TPFinalAyed.dir/Census.c.obj"
+"CMakeFiles/TPFinalAyed.dir/main.c.obj"
 
 # External object files for target TPFinalAyed
 TPFinalAyed_EXTERNAL_OBJECTS =
 
 TPFinalAyed.exe: CMakeFiles/TPFinalAyed.dir/main.c.obj
-TPFinalAyed.exe: CMakeFiles/TPFinalAyed.dir/Census.c.obj
 TPFinalAyed.exe: CMakeFiles/TPFinalAyed.dir/build.make
 TPFinalAyed.exe: CMakeFiles/TPFinalAyed.dir/linklibs.rsp
 TPFinalAyed.exe: CMakeFiles/TPFinalAyed.dir/objects1.rsp
 TPFinalAyed.exe: CMakeFiles/TPFinalAyed.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Toto\CLionProjects\TPFinalAyed\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable TPFinalAyed.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Toto\CLionProjects\TPFinalAyed\src\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable TPFinalAyed.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\TPFinalAyed.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -109,6 +94,6 @@ CMakeFiles/TPFinalAyed.dir/clean:
 .PHONY : CMakeFiles/TPFinalAyed.dir/clean
 
 CMakeFiles/TPFinalAyed.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Toto\CLionProjects\TPFinalAyed C:\Users\Toto\CLionProjects\TPFinalAyed C:\Users\Toto\CLionProjects\TPFinalAyed\cmake-build-debug C:\Users\Toto\CLionProjects\TPFinalAyed\cmake-build-debug C:\Users\Toto\CLionProjects\TPFinalAyed\cmake-build-debug\CMakeFiles\TPFinalAyed.dir\DependInfo.cmake --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Toto\CLionProjects\TPFinalAyed\src C:\Users\Toto\CLionProjects\TPFinalAyed\src C:\Users\Toto\CLionProjects\TPFinalAyed\src\cmake-build-debug C:\Users\Toto\CLionProjects\TPFinalAyed\src\cmake-build-debug C:\Users\Toto\CLionProjects\TPFinalAyed\src\cmake-build-debug\CMakeFiles\TPFinalAyed.dir\DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/TPFinalAyed.dir/depend
 
