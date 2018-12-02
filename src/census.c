@@ -1,6 +1,3 @@
-//
-// Created by lauta on 11/29/2018 with am4 report.
-//
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -28,14 +25,15 @@ struct province{
 };
 
 struct censusCDT {
-   unsigned long inhabitants;
-   unsigned int provinceSize;
-   unsigned long totalHomes;
-   struct province * provinceList;
-   struct province * provIterator;
+    unsigned long inhabitants;
+    unsigned int provinceSize;
+    unsigned long totalHomes;
+    struct province * provinceList;
+    struct province * provIterator;
 };
 
-//adds
+
+//Declarations..
 static struct province* addProvinceRec(censusADT c, struct province *pProvince, char *province, char* department, int homeCode);
 
 static struct department* addDepartmentRec(censusADT c, struct department * pDepartment, char * department, int homeCode, int* addedHomeFlag);
@@ -44,14 +42,20 @@ static int addHome(censusADT c, struct department* department, int homeCode);
 
 static struct home* addHomeRec(censusADT c, struct home* pHome, int homeCode, int* flag);
 
-//frees
+void printprov(struct province *p, FILE *pIobuf) ;
 
-static void freeProvRec(struct province * pProvince);
+void printdept(struct department *d, FILE *pIobuf) ;
+
+void printhomes(struct home *h, FILE *pIobuf) ;
 
 static void freeDeptRec(struct department * pDepartment);
 
 static void freeHomeRec(struct home* pHome);
 
+static void freeProvRec(struct province * pProvince);
+
+
+//Implementations..
 censusADT newCensus(void){
     censusADT c = malloc(sizeof(*c));
 
@@ -65,21 +69,22 @@ censusADT newCensus(void){
 }
 
 void processInputRecord(censusADT c, int homeCode, char *department, char *province) {
-c->inhabitants++;
-c->provinceList = addProvinceRec(c, c->provinceList, province, department, homeCode);
+    c->provinceList = addProvinceRec(c, c->provinceList, province, department, homeCode);
+    c->inhabitants++;
 }
 
 static struct province* addProvinceRec(censusADT c, struct province *pProvince, char *province, char* department, int homeCode){
-    int flag;
+    int flag = 0;
     if(pProvince == NULL || (strcmp(pProvince->name, province) > 0)){ //agrego si apunto a null o si es mayor a la que estoy parado
         struct province* aux = malloc(sizeof(*aux));
+
         aux->name = province;
         aux->inhabitantPerProvince = 1; //si creo creo almenos con 1 por la linea que recibo
         aux->homesPerProvince = 1; //same
         aux->next = pProvince;
         aux->departmentList = NULL;
 
-        aux->departmentList = addDepartmentRec(c ,aux->departmentList, department, homeCode, &flag);
+        aux->departmentList = addDepartmentRec(c, aux->departmentList, department, homeCode, &flag);
         aux->deptIterator = aux->departmentList;
 
         c->provinceSize++;
@@ -103,6 +108,7 @@ static struct province* addProvinceRec(censusADT c, struct province *pProvince, 
 static struct department* addDepartmentRec(censusADT c, struct department* pDepartment, char* department, int homeCode, int* flag){
     if(pDepartment == NULL || (strcmp(pDepartment->name, department)) > 0){
         struct department* aux = malloc(sizeof(*aux));
+
         aux->name = department;
         aux->inhabitantsPerDepartment = 1;
         aux->next = pDepartment;
@@ -121,25 +127,51 @@ static struct department* addDepartmentRec(censusADT c, struct department* pDepa
 }
 
 static int addHome(censusADT c, struct department* department, int homeCode){
-    int flag;
+    int flag = 0;
     department->homes = addHomeRec(c, department->homes, homeCode, &flag);
     return flag;
 }
 
 static struct home* addHomeRec(censusADT c, struct home* pHome, int homeCode, int* flag){
-    if(pHome == NULL || ((pHome->code - homeCode) > 0)){
-        struct home * aux = malloc(sizeof(*aux));
+    if(pHome == NULL || (pHome->code > homeCode)){
+        struct home* aux = malloc(sizeof(*aux));
         aux->code = homeCode;
         aux->next = pHome;
         *flag = 1;
         return aux;
     }
-    if(pHome->code - homeCode == 0){
+    if(pHome->code == homeCode){
         *flag = 0;
         return pHome;
     }
     pHome->next = addHomeRec(c, pHome->next, homeCode, flag);
     return pHome;
+}
+
+void print(censusADT c, FILE *pIobuf) {
+    fprintf(pIobuf, "CENSUS:\n");
+    fprintf(pIobuf, "inhabitants: %d, provinces: %d, homes: %d\n", c->inhabitants, c->provinceSize, c->totalHomes );
+    printprov(c->provinceList, pIobuf);
+}
+
+void printprov(struct province *p, FILE *pIobuf) {
+    if (p==NULL) return;
+    fprintf(pIobuf, "PROV:   name: %s, inhabitants: %d, homes: %d\n", p->name, p->inhabitantPerProvince, p->homesPerProvince);
+    printdept(p->departmentList, pIobuf);
+    printprov(p->next, pIobuf);
+}
+
+void printdept(struct department *d, FILE *pIobuf) {
+    if(d==NULL) return;
+    fprintf(pIobuf, "  DEPT:   name: %s, inhabitants: %d\n", d->name, d->inhabitantsPerDepartment);
+    printhomes(d->homes, pIobuf);
+    printdept(d->next, pIobuf);
+}
+
+void printhomes(struct home *h, FILE *pIobuf) {
+    if(h==NULL) return;
+    fprintf(pIobuf, "        HOME:   code: %d\n", h->code);
+    printhomes(h->next, pIobuf);
 }
 
 void freeCensus(censusADT c){
@@ -172,4 +204,26 @@ static void freeHomeRec(struct home* pHome){
     }
     freeHomeRec(pHome->next);
     free(pHome);
+}
+
+void censusData(censusADT c, unsigned long *totalInhabitants, unsigned long *totalHomes, unsigned int *provinceSize){
+    *totalInhabitants = c->inhabitants;
+    *totalHomes = c->totalHomes;
+    *provinceSize = c->provinceSize;
+}
+
+int provinceData(censusADT c, char *name, long *inXprovince, unsigned long *hXprovince, int i) {
+    if(i == 0)
+        c->provIterator = c->provinceList;
+
+    if(c->provIterator == NULL){
+        c->provIterator = c->provinceList;
+        return 0;
+    }
+
+    strcpy(name, c->provIterator->name);
+    *inXprovince = c->provIterator->inhabitantPerProvince;
+    *hXprovince = c->provIterator->homesPerProvince;
+    c->provIterator = c->provIterator->next;
+    return 1;
 }
