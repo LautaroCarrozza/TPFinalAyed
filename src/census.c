@@ -56,6 +56,7 @@ censusADT newCensus(void){
 }
 
 void processInputRecord(censusADT c, int homeCode, char *department, char *province) {
+c->inhabitants++;
 c->provinceList = addProvinceRec(c, c->provinceList, province, department, homeCode);
 }
 
@@ -66,15 +67,13 @@ static struct province* addProvinceRec(censusADT c, struct province *pProvince, 
         aux->name = province;
         aux->inhabitantPerProvince = 1; //si creo creo almenos con 1 por la linea que recibo
         aux->homesPerProvince = 1; //same
-        if(pProvince == NULL) {
-            aux->next = NULL;
-        } else{
-            aux->next = pProvince;
-        }
+        aux->next = pProvince;
+        aux->departmentList = NULL;
+
         aux->departmentList = addDepartmentRec(c ,aux->departmentList, department, homeCode, &flag);
         aux->deptIterator = aux->departmentList;
+
         c->provinceSize++;
-        c->inhabitants++;
         c->totalHomes++;
         return aux;
     }
@@ -85,6 +84,7 @@ static struct province* addProvinceRec(censusADT c, struct province *pProvince, 
             pProvince->homesPerProvince++;
             c->totalHomes++;
         }
+        pProvince->inhabitantPerProvince++;
         return pProvince;
     }
     pProvince->next = addProvinceRec(c, pProvince->next, province, department, homeCode);
@@ -96,11 +96,9 @@ static struct department* addDepartmentRec(censusADT c, struct department* pDepa
         struct department* aux = malloc(sizeof(*aux));
         aux->name = department;
         aux->inhabitantsPerDepartment = 1;
-        if(pDepartment == NULL){
-            aux->next = NULL;
-        } else{
-            aux->next = pDepartment;
-        }
+        aux->next = pDepartment;
+        aux->homes = NULL;
+
         *flag = addHome(c, aux, homeCode);
         return aux;
     }
@@ -120,9 +118,12 @@ static int addHome(censusADT c, struct department* department, int homeCode){
 }
 
 static struct home* addHomeRec(censusADT c, struct home* pHome, int homeCode, int* flag){
-    if(pHome->next == NULL || ((pHome->code - homeCode) > 0)){
+    if(pHome == NULL || ((pHome->code - homeCode) > 0)){
+        struct home * aux = malloc(sizeof(*aux));
+        aux->code = homeCode;
+        aux->next = pHome;
         *flag = 1;
-        return pHome;
+        return aux;
     }
     if(pHome->code - homeCode == 0){
         *flag = 0;

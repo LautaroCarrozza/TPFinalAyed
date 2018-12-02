@@ -6,57 +6,72 @@
 #define INPUT_LENGTH 80
 #define COLUMNS_LENGTH 4
 
-typedef struct {
-    int activity;
-    int home;
-    char *department;// o char department[64]
-    char *province;// o char province [64]
-}Register;
+#define COUNTRY_PATH "country.csv"
+#define PROVINCE_PATH "province.csv"
+#define DEPARTMENT_PATH "department.csv"
 
 char* getField(char *line, int num);
 
 //reads line and returns Register
-int recordLineFiles(char line[], char *newLine[], Register* aRegister);
+int recordLineFiles(char line[], char *[]);
 
+void writeCountryFile(censusADT c, FILE * countryFile);
 
-int main()
-{
+void writeProvinceFile(censusADT c, FILE *provinceFile);
+
+void writeDepartmentFile(censusADT c, FILE *departmentFile);
+
+int main(){
+
     censusADT c;
     char line[INPUT_LENGTH];
-    Register *aRegister = malloc(sizeof(aRegister));
-    char * currentLine [COLUMNS_LENGTH];
+    char *currentLine [COLUMNS_LENGTH];
+    char *tmp;
+
+    FILE* stream = fopen("censo100.csv", "r");//cambiar argumento por lo que viene en consola
+    FILE* countryFile = fopen(COUNTRY_PATH, "w");
+    FILE* provinceFile = fopen(PROVINCE_PATH, "w");
+    FILE* departmentFile = fopen(DEPARTMENT_PATH, "w");
 
     c = newCensus();
 
-    FILE* stream = fopen("censo100.csv", "r");//cambiar argumento por lo que viene en cosola
-    while (fgets(line, INPUT_LENGTH, stream))
-    {
-        char * tmp = strdup(line);
-        recordLineFiles(tmp, currentLine, aRegister);
-        processInputRecord(c, aRegister->home, aRegister->department, currentLine[3]);
+    while (fgets(line, INPUT_LENGTH, stream)){
+        tmp = strdup(line);
+        recordLineFiles(tmp, currentLine);
+        processInputRecord(c, atoi(currentLine[1]), currentLine[2], currentLine[3]);
         free(tmp);
     }
+
+    writeCountryFile(c, countryFile);
+    writeProvinceFile(c, provinceFile);
+    writeDepartmentFile(c, departmentFile);
+
+    fclose(stream);
+    fclose(countryFile);
+    fclose(provinceFile);
+    fclose(departmentFile);
 }
 
-int recordLineFiles(char line[], char * newLine[], Register *aRegister){
+void writeCountryFile(censusADT c, FILE * countryFile){
+    //Falta metodo del back que me pase las cuentas que se imprimen aca
+}
+
+void writeDepartmentFile(censusADT c, FILE *departmentFile) {
+    //Metodo que busque la provincia a la que pertenece el dep y la devuelva
+    //Metodo que me de el nombre y cant personas
+}
+
+void writeProvinceFile(censusADT c, FILE *provinceFile) {
+    //Metodo que me deberia pasar de cada estructura provincia su nombre, cant personas y cant de hogares
+}
+
+int recordLineFiles(char line[], char *newLine[]){
     char * aux = malloc(strlen(line)+1);
     for (int i = 0; i < COLUMNS_LENGTH; i++) {
         strcpy(aux, line);
         newLine[i] = getField(aux, i+1);
     }
-    char * currentDepartment = newLine[2];
-    char * currentProvince = newLine[3];
-
-    aRegister->department = currentDepartment;
-    //aRegister->province = currentProvince; //SI DESCOMENTO ESTE TIRA SEG FAULT
-    aRegister->activity = atoi(newLine[0]);
-    aRegister->home = atoi(newLine[1]);
-
-    //Con este pruebo que este leyendo bien
-    //printf("%s, %s, %s, %s\n", newLine[0], newLine[1], newLine[2], newLine[3]);
-
-    //free(currentDepartment);
-    //free(currentProvince);
+    return 0;
 }
 
 char* getField(char *line, int num){
