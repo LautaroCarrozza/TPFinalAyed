@@ -35,6 +35,7 @@ struct censusCDT {
    struct province * provIterator;
 };
 
+//adds
 static struct province* addProvinceRec(censusADT c, struct province *pProvince, char *province, char* department, int homeCode);
 
 static struct department* addDepartmentRec(censusADT c, struct department * pDepartment, char * department, int homeCode, int* addedHomeFlag);
@@ -42,6 +43,14 @@ static struct department* addDepartmentRec(censusADT c, struct department * pDep
 static int addHome(censusADT c, struct department* department, int homeCode);
 
 static struct home* addHomeRec(censusADT c, struct home* pHome, int homeCode, int* flag);
+
+//frees
+
+static void freeProvRec(struct province * pProvince);
+
+static void freeDeptRec(struct department * pDepartment);
+
+static void freeHomeRec(struct home* pHome);
 
 censusADT newCensus(void){
     censusADT c = malloc(sizeof(*c));
@@ -131,4 +140,36 @@ static struct home* addHomeRec(censusADT c, struct home* pHome, int homeCode, in
     }
     pHome->next = addHomeRec(c, pHome->next, homeCode, flag);
     return pHome;
+}
+
+void freeCensus(censusADT c){
+    freeProvRec(c->provinceList);
+    free(c);
+}
+
+static void freeProvRec(struct province * pProvince){
+    if(pProvince == NULL) {
+        return;
+    }
+    freeProvRec(pProvince->next);
+    freeDeptRec(pProvince->departmentList);
+    free(pProvince->name);//PUEDE SER IRRELEVANTE ndeaaaaaaaaaaaa
+    free(pProvince);
+}
+
+static void freeDeptRec(struct department * pDepartment){
+    if (pDepartment == NULL)
+        return;
+    freeDeptRec(pDepartment->next);
+    freeHomeRec(pDepartment->homes);
+    free(pDepartment->name);
+    free(pDepartment);
+}
+
+static void freeHomeRec(struct home* pHome){
+    if(pHome == NULL){
+        return;
+    }
+    freeHomeRec(pHome->next);
+    free(pHome);
 }

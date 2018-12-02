@@ -11,4 +11,6 @@ censusADT newCensus(void);
 
 void processInputRecord(censusADT c, int home, char *department, char *province);
 
+void freeCensus(censusADT c);
+
 #endif //TPFINALAYED_CENSUS_H
