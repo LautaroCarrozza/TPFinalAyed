@@ -17,9 +17,7 @@ int recordLineFiles(char line[], char *[]);
 
 void writeCountryFile(censusADT c, FILE * countryFile);
 
-void writeProvinceFile(censusADT c, FILE *provinceFile);
-
-void writeDepartmentFile(censusADT c, FILE *departmentFile);
+void writeProvinceAndDeptFile(censusADT c, FILE *provinceFile, FILE *departmentFile);
 
 int main(){
 
@@ -28,7 +26,7 @@ int main(){
     char *currentLine [COLUMNS_LENGTH];
     char *tmp;
 
-    FILE* stream = fopen("censo100.csv", "r");//cambiar argumento por lo que viene en consola
+    FILE* stream = fopen("censo400k.csv", "r");//cambiar argumento por lo que viene en consola
     FILE* countryFile = fopen(COUNTRY_PATH, "w");
     FILE* provinceFile = fopen(PROVINCE_PATH, "w");
     FILE* departmentFile = fopen(DEPARTMENT_PATH, "w");
@@ -42,11 +40,8 @@ int main(){
         free(tmp);
     }
 
-    //print(c, countryFile);
-
     writeCountryFile(c, countryFile);
-    writeProvinceFile(c, provinceFile);
-//    writeDepartmentFile(c, departmentFile);w
+    writeProvinceAndDeptFile(c, provinceFile, departmentFile);
 
 
     fclose(stream);
@@ -59,7 +54,6 @@ int main(){
 }
 
 void writeCountryFile(censusADT c, FILE * countryFile){
-
     unsigned long totalInhabitants = 0;
     unsigned long totalHomes = 0;
     unsigned int provinceSize = 0;
@@ -68,22 +62,22 @@ void writeCountryFile(censusADT c, FILE * countryFile){
     fprintf(countryFile, "%lu, %lu, %.d", totalInhabitants, totalHomes, provinceSize);
 }
 
-void writeDepartmentFile(censusADT c, FILE *departmentFile) {
-    //Metodo que busque la provincia a la que pertenece el dep y la devuelva
-    //Metodo que me de el nombre y cant personas
-}
-
-void writeProvinceFile(censusADT c, FILE *provinceFile) {
-    //Metodo que me deberia pasar de cada estructura provincia su nombre, cant personas y cant de hogares
-    char provinceName [40];
+void writeProvinceAndDeptFile(censusADT c, FILE *provinceFile, FILE *departmentFile) {
+    char provinceName [64];
+    char deptName [64];
     long inhabitantsPerProvince = 0;
     unsigned long homesPerProvince = 0;
+    unsigned long inhabitantsPerDepartment = 0;
+
     int iter = 0;
-    while (provinceData(c, provinceName, &inhabitantsPerProvince, &homesPerProvince, iter)){
+    int iter2 = 0;
+    while (provinceData(c, provinceName, &inhabitantsPerProvince, &homesPerProvince, iter)) {
         fprintf(provinceFile, "%s, %lu, %lu\n", provinceName, inhabitantsPerProvince, homesPerProvince);
-        strcpy(provinceName, "");
-        inhabitantsPerProvince = 0;
-        homesPerProvince = 0;
+        while (departmentData(c, deptName, &inhabitantsPerDepartment, iter2)){
+            fprintf(departmentFile, "%s, %s, %lu\n", provinceName, deptName, inhabitantsPerDepartment);
+            iter2++;
+        }
+        iter2 = 0;
         iter++;
     }
 

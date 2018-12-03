@@ -11,9 +11,8 @@ void freeCensus(censusADT c);
 
 void censusData(censusADT c, unsigned long *totalInhabitants, unsigned long *totalHomes, unsigned int *provinceSize);
 
-int provinceData(censusADT c, char *name, long *inXprovince, unsigned long *hXprovince, int i);
+int provinceData(censusADT c, char *provinceName, long *inXprovince, unsigned long *hXprovince, int i);
 
-void print(censusADT c, FILE *pIobuf);
-
+int departmentData(censusADT c, char deptName[40], unsigned long *inXdept, int i);
 
 #endif //TPFINALAYED_CENSUS_H

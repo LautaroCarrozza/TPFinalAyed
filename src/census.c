@@ -20,8 +20,8 @@ struct province{
     long inhabitantPerProvince;
     unsigned long homesPerProvince;
     struct province* next;
-    struct department * deptIterator;
     struct department* departmentList;
+    struct department * deptIterator;
 };
 
 struct censusCDT {
@@ -41,12 +41,6 @@ static struct department* addDepartmentRec(censusADT c, struct department * pDep
 static int addHome(censusADT c, struct department* department, int homeCode);
 
 static struct home* addHomeRec(censusADT c, struct home* pHome, int homeCode, int* flag);
-
-void printprov(struct province *p, FILE *pIobuf) ;
-
-void printdept(struct department *d, FILE *pIobuf) ;
-
-void printhomes(struct home *h, FILE *pIobuf) ;
 
 static void freeDeptRec(struct department * pDepartment);
 
@@ -85,7 +79,7 @@ static struct province* addProvinceRec(censusADT c, struct province *pProvince, 
         aux->departmentList = NULL;
 
         aux->departmentList = addDepartmentRec(c, aux->departmentList, department, homeCode, &flag);
-        aux->deptIterator = aux->departmentList;
+        aux->deptIterator = NULL;
 
         c->provinceSize++;
         c->totalHomes++;
@@ -148,32 +142,6 @@ static struct home* addHomeRec(censusADT c, struct home* pHome, int homeCode, in
     return pHome;
 }
 
-void print(censusADT c, FILE *pIobuf) {
-    fprintf(pIobuf, "CENSUS:\n");
-    fprintf(pIobuf, "inhabitants: %d, provinces: %d, homes: %d\n", c->inhabitants, c->provinceSize, c->totalHomes );
-    printprov(c->provinceList, pIobuf);
-}
-
-void printprov(struct province *p, FILE *pIobuf) {
-    if (p==NULL) return;
-    fprintf(pIobuf, "PROV:   name: %s, inhabitants: %d, homes: %d\n", p->name, p->inhabitantPerProvince, p->homesPerProvince);
-    printdept(p->departmentList, pIobuf);
-    printprov(p->next, pIobuf);
-}
-
-void printdept(struct department *d, FILE *pIobuf) {
-    if(d==NULL) return;
-    fprintf(pIobuf, "  DEPT:   name: %s, inhabitants: %d\n", d->name, d->inhabitantsPerDepartment);
-    printhomes(d->homes, pIobuf);
-    printdept(d->next, pIobuf);
-}
-
-void printhomes(struct home *h, FILE *pIobuf) {
-    if(h==NULL) return;
-    fprintf(pIobuf, "        HOME:   code: %d\n", h->code);
-    printhomes(h->next, pIobuf);
-}
-
 void freeCensus(censusADT c){
     freeProvRec(c->provinceList);
     free(c);
@@ -212,18 +180,36 @@ void censusData(censusADT c, unsigned long *totalInhabitants, unsigned long *tot
     *provinceSize = c->provinceSize;
 }
 
-int provinceData(censusADT c, char *name, long *inXprovince, unsigned long *hXprovince, int i) {
-    if(i == 0)
+int provinceData(censusADT c, char *provinceName, long *inXprovince, unsigned long *hXprovince, int i) {
+    if(i == 0) {
         c->provIterator = c->provinceList;
+    }
+    else{
+        c->provIterator = c->provIterator->next;
+    }
 
     if(c->provIterator == NULL){
         c->provIterator = c->provinceList;
+        c->provIterator->deptIterator = NULL;
         return 0;
     }
 
-    strcpy(name, c->provIterator->name);
+    strcpy(provinceName, c->provIterator->name);
     *inXprovince = c->provIterator->inhabitantPerProvince;
     *hXprovince = c->provIterator->homesPerProvince;
-    c->provIterator = c->provIterator->next;
+    return 1;
+}
+
+int departmentData(censusADT c, char deptName[40], unsigned long *inXdept, int i) {
+    if(i == 0){
+        c->provIterator->deptIterator = c->provIterator->departmentList;
+    }
+    if (c->provIterator->deptIterator == NULL){
+        return 0;
+    }
+
+    strcpy(deptName, c->provIterator->deptIterator->name);
+    *inXdept = c->provIterator->deptIterator->inhabitantsPerDepartment;
+    c->provIterator->deptIterator = c->provIterator->deptIterator->next;
     return 1;
 }
