@@ -19,14 +19,21 @@ void writeCountryFile(censusADT c, FILE * countryFile);
 
 void writeProvinceAndDeptFile(censusADT c, FILE *provinceFile, FILE *departmentFile);
 
-int main(){
+int main(int argc, char*argv[]){
 
     censusADT c;
     char line[INPUT_LENGTH];
     char *currentLine [COLUMNS_LENGTH];
     char *tmp;
 
-    FILE* stream = fopen("censo400k.csv", "r");//cambiar argumento por lo que viene en consola
+    FILE* stream;
+
+    if(argc > 1){
+        stream = fopen(argv[1], "r");
+    } else {
+        stream = fopen("censo100.csv", "r");
+    }
+
     FILE* countryFile = fopen(COUNTRY_PATH, "w");
     FILE* provinceFile = fopen(PROVINCE_PATH, "w");
     FILE* departmentFile = fopen(DEPARTMENT_PATH, "w");
