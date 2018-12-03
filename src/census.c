@@ -3,11 +3,13 @@
 #include <stdlib.h>
 #include "census.h"
 
+//Holds a pointer to the next home, making a NULL terminated and ordered from highest to lowest list. Code is the code for each home.
 struct home{
     int code;
     struct home* next;
 };
 
+//Holds a pointer to the next department, making a NULL terminated and alphabetically ordered list and a pointer to its corresponding list of homes.
 struct department{
     char * name;
     unsigned long inhabitantsPerDepartment;
@@ -15,6 +17,10 @@ struct department{
     struct home * homes;
 };
 
+/*
+ * Holds a pointer to the next province, making  NULL terminated and alphabetically ordered list, a pointer to its corresponding list of departments
+ * and an iterative pointer to that list, that will be used by the data functions.
+ */
 struct province{
     char * name;
     long inhabitantPerProvince;
@@ -24,6 +30,10 @@ struct province{
     struct department * deptIterator;
 };
 
+/*
+ * Holds a pointer to the list of provinces and an iterative pointer.
+ * Inhabitants is the total quantity of inhabitants, provinceSize is the total quantity of provinces and totalHomes the total quantity of homes.
+ */
 struct censusCDT {
     unsigned long inhabitants;
     unsigned int provinceSize;
@@ -33,14 +43,21 @@ struct censusCDT {
 };
 
 
-//Declarations..
+//Declarations (all non-static functions used by the main function are declared in census.h).
+
+//Adds a province to the list of provinces recursively. Will call the addDepartmentRec when a department needs to be added.
 static struct province* addProvinceRec(censusADT c, struct province *pProvince, char *province, char* department, int homeCode);
 
+//Adds a department to the list of departments of each province recursively. Will call the addHome (and addHomeRec) when a home needs to be added.
 static struct department* addDepartmentRec(censusADT c, struct department * pDepartment, char * department, int homeCode, int* addedHomeFlag);
 
+//Returns 1 or 0 based on whether a home was added or not.
 static int addHome(censusADT c, struct department* department, int homeCode);
 
+//Will add a home recursively to the list of homes and sets the flag to 1 or 0 if a home was added or not.
 static struct home* addHomeRec(censusADT c, struct home* pHome, int homeCode, int* flag);
+
+//Each function frees recursively its corresponding structure. They are called by freeCensus in the main function.
 
 static void freeDeptRec(struct department * pDepartment);
 
@@ -49,7 +66,10 @@ static void freeHomeRec(struct home* pHome);
 static void freeProvRec(struct province * pProvince);
 
 
-//Implementations..
+//Implementations
+
+//Creation of the census ADT (pointer to the census CDT structure).
+
 censusADT newCensus(void){
     censusADT c = malloc(sizeof(*c));
 
@@ -62,6 +82,8 @@ censusADT newCensus(void){
     return c;
 }
 
+//Process each line of data and calls addProvinceRec to start storing the data in the corresponding structures.
+
 void processInputRecord(censusADT c, int homeCode, char *department, char *province) {
     c->provinceList = addProvinceRec(c, c->provinceList, province, department, homeCode);
     c->inhabitants++;
@@ -69,12 +91,12 @@ void processInputRecord(censusADT c, int homeCode, char *department, char *provi
 
 static struct province* addProvinceRec(censusADT c, struct province *pProvince, char *province, char* department, int homeCode){
     int flag = 0;
-    if(pProvince == NULL || (strcmp(pProvince->name, province) > 0)){ //agrego si apunto a null o si es mayor a la que estoy parado
+    if(pProvince == NULL || (strcmp(pProvince->name, province) > 0)){
         struct province* aux = malloc(sizeof(*aux));
 
         aux->name = province;
-        aux->inhabitantPerProvince = 1; //si creo creo almenos con 1 por la linea que recibo
-        aux->homesPerProvince = 1; //same
+        aux->inhabitantPerProvince = 1;
+        aux->homesPerProvince = 1;
         aux->next = pProvince;
         aux->departmentList = NULL;
 
@@ -142,6 +164,8 @@ static struct home* addHomeRec(censusADT c, struct home* pHome, int homeCode, in
     return pHome;
 }
 
+//Frees the census from the main function calling the recursive frees for each structure.
+
 void freeCensus(censusADT c){
     freeProvRec(c->provinceList);
     free(c);
@@ -153,7 +177,6 @@ static void freeProvRec(struct province * pProvince){
     }
     freeProvRec(pProvince->next);
     freeDeptRec(pProvince->departmentList);
-    free(pProvince->name);//PUEDE SER IRRELEVANTE ndeaaaaaaaaaaaa
     free(pProvince);
 }
 
@@ -162,7 +185,6 @@ static void freeDeptRec(struct department * pDepartment){
         return;
     freeDeptRec(pDepartment->next);
     freeHomeRec(pDepartment->homes);
-    free(pDepartment->name);
     free(pDepartment);
 }
 

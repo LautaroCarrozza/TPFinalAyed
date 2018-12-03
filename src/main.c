@@ -83,7 +83,7 @@ void writeProvinceAndDeptFile(censusADT c, FILE *provinceFile, FILE *departmentF
 
 }
 
-int recordLineFiles(char line[], char *newLine[]){ //1 leak en tok
+int recordLineFiles(char line[], char *newLine[]){
     char * aux = malloc(strlen(line)+1);
     for (int i = 0; i < COLUMNS_LENGTH; i++) {
         strcpy(aux, line);
